@@ -2,42 +2,66 @@
 <route lang="json5" type="home">
 {
   style: {
-    navigationBarTitleText: '工单',
+    navigationStyle: 'custom',
+    navigationBarTitleText: '',
   },
 }
 </route>
 
 <template>
-  <view class="content">
-    <wd-tabs v-model="tab">
-      <wd-tab title="未处理">
-        <view class="content">未处理</view>
-      </wd-tab>
-      <wd-tab title="审核中">
-        <view class="content">审核中</view>
-      </wd-tab>
-      <wd-tab title="已处理">
-        <view class="content">已处理</view>
-      </wd-tab>
-    </wd-tabs>
-    <button @click="run">请求</button>
-    <view v-if="loading" class="text-blue h-10">请求中...</view>
-    <view v-if="error" class="text-red h-10">请求错误</view>
-    <view v-else class="text-green h-10">{{ JSON.stringify(data) }}</view>
-    <view class="w-[100%]">
-      <wd-card v-for="i in [1, 2, 3]" :key="i">
-        <wd-cell title="标题文字" value="内容" icon="setting" />
+  <view class="page-content">
+    <wd-navbar
+      fixed
+      placeholder
+      left-text="工单"
+      right-text="添加"
+      safeAreaInsetTop
+      @click-right="handleClickRight"
+      custom-style="background-color: #4d80f0 !important;"
+    />
+    <wd-search hide-cancel placeholder-left />
+    <view class="">
+      <view class="p-[12px] ml-[16px] tag-before">标签名称</view>
+      <wd-card v-for="item in [1, 2, 3]" :key="item">
+        <template #title>
+          <view class="flex-c-b">
+            <view class="text-[16px]">水箱加水</view>
+            <view class="title-tip">
+              <wd-tag type="success" plain>已派单</wd-tag>
+            </view>
+          </view>
+        </template>
+        <view>
+          <view class="flex-c-b">
+            <view>设备位置：</view>
+            <view>龙湖天街</view>
+          </view>
+          <view class="flex-c-b">
+            <view>创建时间：</view>
+            <view>2024.10.08 18:00:00</view>
+          </view>
+        </view>
         <template #footer>
-          <wd-button size="small" plain>派单</wd-button>
-          <wd-button size="small" plain>认领</wd-button>
+          <view>
+            <wd-button
+              custom-style="height: 24px; border-radius: 8px;"
+              size="small"
+              class="mr-[8px]"
+            >
+              派单
+            </wd-button>
+            <wd-button custom-style="height: 24px; border-radius: 8px;" size="small" plain>
+              认领
+            </wd-button>
+          </view>
         </template>
       </wd-card>
-      <wd-loadmore custom-class="loadmore" state="loading" />
     </view>
   </view>
 </template>
 
 <script setup lang="js">
+import UCard from '@/components/UCard/UCard.vue'
 import { httpPost, httpGet } from '@/utils/http'
 const { loading, error, data, run } = useRequest(() =>
   httpPost('/code/note', { phone: '13258585169' }),
@@ -48,9 +72,8 @@ const activeColor = ref('#DE5230')
 const styleType = ref('text')
 const showLeft = ref(false)
 
-const showDrawer = () => {
-  // console.log(showRight.value?.open())
-  // showRight.value.open(); // Make sure to use a ref here for the drawer component
+const handleClickRight = () => {
+  uni.navigateTo({ url: '/pages/addMachine/index' })
 }
 
 const closeDrawer = () => {
@@ -59,26 +82,46 @@ const closeDrawer = () => {
 </script>
 
 <style lang="scss">
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 120px;
-  text-align: center;
+.page-content {
+  width: 100%;
+  //min-height: calc(100vh - 50px);
+  min-height: 100vh;
+  height: 100%;
+  background: #f2f2f2;
+  .flex-c-b {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-.tab-item-active {
-  color: #de5230;
-  &::after {
+
+.tag-before {
+  position: relative;
+  &::before {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
     content: '';
-    display: block;
-    width: calc(100% - 60px);
-    height: 2px;
-    background-color: #de5230;
+    left: 0;
+    top: 15px;
+    width: 4px;
+    height: 18px;
+    background: #4d80f0;
+  }
+}
+:deep() {
+  .wd-navbar__text {
+    color: #fff !important;
+  }
+  .wd-card__content {
+    padding: 0 !important;
+    //&::after {
+    //  content: none !important;
+    //}
+  }
+  .wd-card__footer {
+    //&::after {
+    //  content: none !important;
+    //}
   }
 }
 </style>

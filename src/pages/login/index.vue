@@ -1,80 +1,73 @@
 <route lang="json5">
 {
   style: {
-    navigationBarTitleText: '工单',
+    navigationStyle: 'custom',
+    navigationBarTitleText: '登录',
   },
 }
 </route>
 <template>
-  <view class="content">
-    <image class="logo" src="../../static/logo.png"></image>
-    <view>
-      <text class="title">{{ title }}</text>
+  <view class="bg-[#4D80F0] w-[100vw] h-[100vh] pos-relative">
+    <view class="text-white pt-[89px] ml-[42px] text-[28px] font-bold pos-relative">
+      <view>Hello</view>
+      <view>欢迎登录</view>
+      <wd-img
+        style="
+          position: absolute !important;
+          width: 100%;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+        "
+        mode="widthFix"
+        src="/static/images/xwz/bg-map.png"
+      />
     </view>
-    <view style="padding: 20px">
-      <view></view>
-      <view class="u-demo-block__content" style="margin-top: 15px">
-        <u-input placeholder="手机号" shape="circle"></u-input>
-        <br />
-        <!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
-        <u-input placeholder="验证码" shape="circle">
-          <template v-slot:suffix>
-            <u-code
-              ref="uCode"
-              @change="codeChange"
-              seconds="20"
-              changeText="X秒重新获取哈哈哈"
-            ></u-code>
-            <u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
-          </template>
-        </u-input>
+    <view
+      class="bg-white w-[100vw] h-[70vh] pos-absolute bottom-0 rounded-t-[18px] pt-[28px] px-[28px] box-border text-[18px] text-[#333333] leading-[18px]"
+    >
+      <view class="mt-[32px] mb-[12px]">賬戶</view>
+      <wd-input
+        type="text"
+        v-model="value"
+        size="large"
+        placeholder="请输入用户名"
+        @change="handleChange"
+      />
+      <view class="mt-[32px] mb-[12px]">密碼</view>
+      <wd-input v-model="value" size="large" clearable show-password @change="handleChange" />
+      <view
+        class="w-[100%] h-[43px] bg-[#4D80F0] text-white text-center line-height-[43px] rounded-[43px] mt-[52px]"
+      >
+        登录
       </view>
     </view>
   </view>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script setup lang="js">
+import { httpPost, httpGet } from '@/utils/http'
+const { loading, error, data, run } = useRequest(() =>
+  httpPost('/code/note', { phone: '13258585169' }),
+)
+const tab = ref(0)
+const current = ref(0)
+const activeColor = ref('#DE5230')
+const styleType = ref('text')
+const showLeft = ref(false)
 
-export default Vue.extend({
-  data() {
-    return {
-      title: 'Hello',
-      tips: '获取验证码',
-      value: '',
-    }
-  },
-  watch: {
-    value(newValue, oldValue) {
-      // console.log('v-model', newValue);
-    },
-  },
-  onLoad() {},
-  methods: {},
-})
+const showDrawer = () => {
+  // console.log(showRight.value?.open())
+  // showRight.value.open(); // Make sure to use a ref here for the drawer component
+}
+
+const closeDrawer = () => {
+  // showRight.value.close();
+}
 </script>
 
-<style>
+<style lang="scss">
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin: 200rpx auto 50rpx auto;
-}
-
-.text-area {
-  display: flex;
-  justify-content: center;
-}
-
-.title {
-  font-size: 36rpx;
-  color: #8f8f94;
+  border-radius: 36px 36px 0 0;
 }
 </style>

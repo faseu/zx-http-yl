@@ -17,8 +17,8 @@ export default defineUniPages({
     },
   },
   tabBar: {
-    color: '#999999',
-    selectedColor: '#018d71',
+    color: '#838281',
+    selectedColor: '#4D80F0',
     backgroundColor: '#F8F8F8',
     borderStyle: 'black',
     height: '50px',
@@ -28,20 +28,20 @@ export default defineUniPages({
     list: [
       {
         pagePath: 'pages/ticket/index',
-        iconPath: 'static/tabBar/ticket.png',
-        selectedIconPath: 'static/tabBar/ticketH.png',
+        iconPath: 'static/tabbar/ticket.png',
+        selectedIconPath: 'static/tabbar/ticketH.png',
         text: '工单',
       },
       {
         pagePath: 'pages/robot/index',
-        iconPath: 'static/tabBar/robot.png',
-        selectedIconPath: 'static/tabBar/robotH.png',
+        iconPath: 'static/tabbar/robot.png',
+        selectedIconPath: 'static/tabbar/robotH.png',
         text: '设备',
       },
       {
         pagePath: 'pages/mine/index',
-        iconPath: 'static/tabBar/mine.png',
-        selectedIconPath: 'static/tabBar/mineH.png',
+        iconPath: 'static/tabbar/mine.png',
+        selectedIconPath: 'static/tabbar/mineH.png',
         text: '我的',
       },
     ],

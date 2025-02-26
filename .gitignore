@@ -24,6 +24,7 @@ dist
 .stylelintcache
 .eslintcache
 
+docs
 docs/.vitepress/dist
 docs/.vitepress/cache
 
