@@ -3,7 +3,7 @@
 {
   style: {
     navigationStyle: 'custom',
-    navigationBarTitleText: '添加',
+    navigationBarTitleText: '使用者參數',
   },
 }
 </route>
@@ -12,8 +12,7 @@
     fixed
     left-arrow
     placeholder
-    left-text="返回"
-    title="添加"
+    title="使用者參數"
     safeAreaInsetTop
     @click-left="handleClickLeft"
     @click-right="handleClickRight"
@@ -24,29 +23,52 @@
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備ID</view>
-        <view class="w-[60%] bg-[#007135] p-3">添加設備ID</view>
+        <view class="w-[70%] bg-[#292D34] p-3">無料警告支數</view>
+        <view class="w-[30%] bg-[#007135] p-3">0020</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備名稱</view>
-        <view class="w-[60%] bg-[#007135] p-3">輸入設備名稱</view>
+        <view class="w-[70%] bg-[#292D34] p-3">無料停車支數</view>
+        <view class="w-[30%] bg-[#007135] p-3">0000</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備位置</view>
-        <view class="w-[60%] bg-[#007135] p-3">輸入設備位置</view>
+        <view class="w-[70%] bg-[#292D34] p-3">異常停車</view>
+        <view class="w-[30%] bg-[#45C75D] p-3 flex items-center justify-center">
+          <view>ON</view>
+          <view class="w-7.75 h-7.75 bg-white rounded-[50%] ml-2"></view>
+        </view>
+      </view>
+      <wd-gap height="10" />
+      <view
+        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
+      >
+        <view class="w-[70%] bg-[#292D34] p-3">壓力倒拉功能</view>
+        <view class="w-[30%] bg-[#45C75D] p-3 flex items-center justify-center">
+          <view>ON</view>
+          <view class="w-7.75 h-7.75 bg-white rounded-[50%] ml-2"></view>
+        </view>
+      </view>
+      <wd-gap height="10" />
+      <view
+        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
+      >
+        <view class="w-[70%] bg-[#292D34] p-3">距離倒拉功能</view>
+        <view class="w-[30%] bg-[#A4A4A4] p-3 flex items-center justify-center">
+          <view class="w-7.75 h-7.75 bg-white rounded-[50%]"></view>
+          <view class="ml-2">OFF</view>
+        </view>
       </view>
       <wd-gap height="10" />
     </view>
     <view
       class="bg-[#9FB7E1] border-solid border-t-white border-0 border-t-0.5 w-[100%] p-x-4 p-y-3 box-border pos-fixed bottom-0"
     >
-      <wd-button size="large" style="background: #007135" block>確認添加</wd-button>
+      <wd-button size="large" style="background: #007135" block>保存</wd-button>
       <wd-gap safe-area-bottom height="0" />
     </view>
   </view>

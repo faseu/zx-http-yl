@@ -13,46 +13,47 @@
     <wd-navbar
       fixed
       placeholder
-      left-text="工单"
-      right-text="添加"
+      left-text="設備管理"
+      right-text="添加設備"
       safeAreaInsetTop
       @click-right="handleClickRight"
-      custom-style="background-color: #4d80f0 !important;"
+      custom-style="background-color: #007135 !important;"
     />
-    <wd-search hide-cancel placeholder-left />
+    <wd-search mt-0.25 hide-cancel placeholder-left />
     <view class="">
-      <view class="p-[12px] ml-[16px] tag-before">标签名称</view>
-      <wd-card v-for="item in [1, 2, 3]" :key="item">
+      <view class="p-[12px] ml-[16px] tag-before">設備列表 (9)</view>
+      <wd-card v-for="item in [1, 2, 3]" :key="item" @click="handleGotoDetail">
         <template #title>
           <view class="flex-c-b">
-            <view class="text-[16px]">水箱加水</view>
+            <view class="text-[16px] font-600">設備名稱</view>
             <view class="title-tip">
-              <wd-tag type="success" plain>已派单</wd-tag>
+              <wd-tag type="success" color="#007135" bg-color="#007135" plain>在線</wd-tag>
             </view>
           </view>
         </template>
         <view>
           <view class="flex-c-b">
-            <view>设备位置：</view>
-            <view>龙湖天街</view>
+            <view>設備位置：</view>
+            <view>层生產車間A區</view>
           </view>
           <view class="flex-c-b">
-            <view>创建时间：</view>
-            <view>2024.10.08 18:00:00</view>
+            <view>設備編號：</view>
+            <view>DEV202300001</view>
           </view>
         </view>
         <template #footer>
-          <view>
-            <wd-button
-              custom-style="height: 24px; border-radius: 8px;"
-              size="small"
-              class="mr-[8px]"
+          <view class="flex-c-b">
+            <view
+              class="w-18.75 h-5.75 flex items-center justify-center border-1 box-border text-red border-red border-solid rounded-1.25"
             >
-              派单
-            </wd-button>
-            <wd-button custom-style="height: 24px; border-radius: 8px;" size="small" plain>
-              认领
-            </wd-button>
+              解除綁定
+            </view>
+
+            <view
+              class="w-18.75 h-5.75 flex items-center justify-center bg-[#007135] text-white rounded-1.25"
+            >
+              詳 情
+            </view>
           </view>
         </template>
       </wd-card>
@@ -74,6 +75,9 @@ const showLeft = ref(false)
 
 const handleClickRight = () => {
   uni.navigateTo({ url: '/pages/addMachine/index' })
+}
+const handleGotoDetail = () => {
+  uni.navigateTo({ url: '/pages/detailMachine/index' })
 }
 
 const closeDrawer = () => {
@@ -105,7 +109,7 @@ const closeDrawer = () => {
     top: 15px;
     width: 4px;
     height: 18px;
-    background: #4d80f0;
+    background: #007135;
   }
 }
 :deep() {

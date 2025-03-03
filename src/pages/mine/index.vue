@@ -1,5 +1,5 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
-<route lang="json5" type="home">
+<route lang="json5">
 {
   style: {
     navigationStyle: 'custom',
@@ -13,12 +13,12 @@
     <wd-navbar
       fixed
       placeholder
-      left-text="我的"
+      left-text="个人中心"
       safeAreaInsetTop
-      custom-style="background-color: #4d80f0 !important;"
+      custom-style="background-color: #007135 !important;"
     />
     <view
-      class="bg-[#4d80f0] text-[#fff] h-[180px] flex flex-col justify-center items-center pos-relative"
+      class="bg-[#007135] text-[#fff] h-[180px] flex flex-col justify-center items-center pos-relative"
     >
       <wd-img
         class="bg-[#fff]"

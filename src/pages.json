@@ -15,7 +15,7 @@
   },
   "tabBar": {
     "color": "#838281",
-    "selectedColor": "#4D80F0",
+    "selectedColor": "#007135",
     "backgroundColor": "#F8F8F8",
     "borderStyle": "black",
     "height": "50px",
@@ -24,47 +24,26 @@
     "spacing": "3px",
     "list": [
       {
-        "pagePath": "pages/ticket/index",
-        "iconPath": "static/tabbar/ticket.png",
-        "selectedIconPath": "static/tabbar/ticketH.png",
-        "text": "工单"
-      },
-      {
-        "pagePath": "pages/robot/index",
-        "iconPath": "static/tabbar/robot.png",
-        "selectedIconPath": "static/tabbar/robotH.png",
-        "text": "设备"
+        "pagePath": "pages/machine/index",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/homeH.png",
+        "text": "首页"
       },
       {
         "pagePath": "pages/mine/index",
         "iconPath": "static/tabbar/mine.png",
         "selectedIconPath": "static/tabbar/mineH.png",
-        "text": "我的"
+        "text": "个人中心"
       }
     ]
   },
   "pages": [
     {
-      "path": "pages/ticket/index",
+      "path": "pages/machine/index",
       "type": "home",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/mine/index",
-      "type": "home",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/addMachine/index",
-      "type": "home",
-      "style": {
-        "navigationBarTitleText": "添加"
       }
     },
     {
@@ -72,6 +51,30 @@
       "type": "page",
       "style": {
         "navigationBarTitleText": "关于"
+      }
+    },
+    {
+      "path": "pages/addMachine/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "添加"
+      }
+    },
+    {
+      "path": "pages/alarm/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "报警"
+      }
+    },
+    {
+      "path": "pages/detailMachine/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "详情"
       }
     },
     {
@@ -91,10 +94,35 @@
       }
     },
     {
-      "path": "pages/robot/index",
+      "path": "pages/mine/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "设备"
+        "navigationStyle": "custom",
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/production/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "力量頁面"
+      }
+    },
+    {
+      "path": "pages/strength/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "力量頁面"
+      }
+    },
+    {
+      "path": "pages/user/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "使用者參數"
       }
     }
   ],
