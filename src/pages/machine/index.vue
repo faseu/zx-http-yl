@@ -29,7 +29,7 @@
             <view class="title-tip">
               <wd-tag
                 type="success"
-                v-show="item.terminalStatus !== 'online'"
+                v-show="item.terminalStatus === 'online'"
                 color="#007135"
                 bg-color="#007135"
                 plain
@@ -43,7 +43,7 @@
                 bg-color="#6F6F6F"
                 plain
               >
-                在線
+                离線
               </wd-tag>
             </view>
           </view>
