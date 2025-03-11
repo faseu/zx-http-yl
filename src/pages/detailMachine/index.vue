@@ -30,19 +30,40 @@
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
-          <view class="w-4 h-4 bg-[#fff] rounded-full"></view>
+          <view
+            v-show="data.terminalConfig.isLink === 'on'"
+            class="w-4 h-4 bg-[#FFFF00] rounded-full"
+          />
+          <view
+            v-show="data.terminalConfig.isLink === 'off'"
+            class="w-4 h-4 bg-[#fff] rounded-full"
+          />
         </view>
         <view>LINK</view>
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
-          <view class="w-4 h-4 bg-[#fff] rounded-full"></view>
+          <view
+            v-show="data.terminalConfig.isSensor === 'on'"
+            class="w-4 h-4 bg-[#FFFF00] rounded-full"
+          />
+          <view
+            v-show="data.terminalConfig.isSensor === 'off'"
+            class="w-4 h-4 bg-[#fff] rounded-full"
+          />
         </view>
         <view>SENSOR</view>
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
-          <view class="w-4 h-4 bg-[#fff] rounded-full"></view>
+          <view
+            v-show="data.terminalConfig.isCheck === 'on'"
+            class="w-4 h-4 bg-[#FFFF00] rounded-full"
+          />
+          <view
+            v-show="data.terminalConfig.isCheck === 'off'"
+            class="w-4 h-4 bg-[#fff] rounded-full"
+          />
         </view>
         <view>CHECK</view>
       </view>
@@ -50,11 +71,15 @@
     <view class="flex flex-wrap justify-between mt-3 box-border text-white font-size-3.25">
       <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item1.png" />
-        <view class="mt-1">檢測 ON/OFF</view>
+        <view class="mt-1">
+          {{ `檢測 ${data.terminalConfig.isJiance === 'on' ? 'ON' : 'OFF'}` }}
+        </view>
       </view>
       <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item2.png" />
-        <view class="mt-1">計數 ON/OFF</view>
+        <view class="mt-1">
+          {{ `計數 ${data.terminalConfig.isJishu === 'on' ? 'ON' : 'OFF'}` }}
+        </view>
       </view>
       <view
         class="flex flex-col items-center justify-center w-22 h-22 mt-3"
@@ -258,25 +283,23 @@
 </template>
 
 <script setup lang="js">
-import UCard from '@/components/UCard/UCard.vue'
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
+import { onLoad } from '@dcloudio/uni-app'
+import { httpGet } from '@/utils/http'
+const terminalId = ref(0)
+const { data, run } = useRequest(() =>
+  httpGet(`/prod-api/plcterminal/terminal/api-detail/${terminalId.value}`),
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
+
+onLoad((option) => {
+  terminalId.value = option.id
+  run()
+})
 const switch1 = ref(false)
 const value1 = ref(0)
 const value2 = ref(0)
 
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
-}
-const handleClickRight = () => {
-  uni.navigateTo({ url: '' })
 }
 
 const handleGoToUser = () => {
@@ -290,10 +313,6 @@ const handleGoToStrength = () => {
 }
 const handleGoToProduction = () => {
   uni.navigateTo({ url: '/pages/production/index' })
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();
 }
 </script>
 

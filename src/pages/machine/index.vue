@@ -22,23 +22,40 @@
     <wd-search mt-0.25 hide-cancel placeholder-left />
     <view class="">
       <view class="p-[12px] ml-[16px] tag-before">設備列表 (9)</view>
-      <wd-card v-for="item in [1, 2, 3]" :key="item" @click="handleGotoDetail">
+      <wd-card v-for="item in data" :key="item" @click="() => handleGotoDetail(item.id)">
         <template #title>
           <view class="flex-c-b">
-            <view class="text-[16px] font-600">設備名稱</view>
+            <view class="text-[16px] font-600">{{ item.terminalName }}</view>
             <view class="title-tip">
-              <wd-tag type="success" color="#007135" bg-color="#007135" plain>在線</wd-tag>
+              <wd-tag
+                type="success"
+                v-show="item.terminalStatus !== 'online'"
+                color="#007135"
+                bg-color="#007135"
+                plain
+              >
+                在線
+              </wd-tag>
+              <wd-tag
+                type="success"
+                v-show="item.terminalStatus === 'offline'"
+                color="#6F6F6F"
+                bg-color="#6F6F6F"
+                plain
+              >
+                在線
+              </wd-tag>
             </view>
           </view>
         </template>
         <view>
           <view class="flex-c-b">
             <view>設備位置：</view>
-            <view>层生產車間A區</view>
+            <view>{{ item.terminalLocation }}</view>
           </view>
           <view class="flex-c-b">
             <view>設備編號：</view>
-            <view>DEV202300001</view>
+            <view>{{ item.terminalNo }}</view>
           </view>
         </view>
         <template #footer>
@@ -62,26 +79,20 @@
 </template>
 
 <script setup lang="js">
-import UCard from '@/components/UCard/UCard.vue'
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
+import { useUserStore } from '@/store'
+import { httpGet } from '@/utils/http'
+const userStore = useUserStore()
+const userId = userStore.userInfo.id
+const { data, run } = useRequest(
+  () => httpGet(`/prod-api/plcterminal/terminal/api-list/${userId}`),
+  { immediate: true },
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
 
 const handleClickRight = () => {
   uni.navigateTo({ url: '/pages/addMachine/index' })
 }
-const handleGotoDetail = () => {
-  uni.navigateTo({ url: '/pages/detailMachine/index' })
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();
+const handleGotoDetail = (id) => {
+  uni.navigateTo({ url: `/pages/detailMachine/index?id=${id}` })
 }
 </script>
 

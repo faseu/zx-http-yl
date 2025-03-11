@@ -27,18 +27,12 @@
       class="bg-white w-[100vw] h-[70vh] pos-absolute bottom-0 rounded-t-5 pt-7 px-7 box-border text-5 text-[#333333] leading-5"
     >
       <view class="mt-7 mb-3">賬戶</view>
-      <wd-input
-        type="text"
-        v-model="value"
-        size="large"
-        placeholder="请输入用户名"
-        @change="handleChange"
-      />
+      <wd-input type="text" v-model="account" size="large" placeholder="请输入賬戶" />
       <view class="mt-8 mb-3">密碼</view>
-      <wd-input v-model="value" size="large" clearable show-password @change="handleChange" />
+      <wd-input v-model="password" size="large" placeholder="请输入密碼" clearable show-password />
       <view
         class="w-[100%] h-10 bg-[#007135] text-white text-center line-height-10 rounded-10 mt-13"
-        @click="handleLogin"
+        @click="onLogin"
       >
         登录
       </view>
@@ -47,26 +41,29 @@
 </template>
 
 <script setup lang="js">
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
-)
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
-
-const showDrawer = () => {
-  // console.log(showRight.value?.open())
-  // showRight.value.open(); // Make sure to use a ref here for the drawer component
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();
-}
-const handleLogin = () => {
-  uni.switchTab({ url: '/pages/machine/index' })
+import { loginRequest } from '@/service/login'
+import { useUserStore } from '@/store'
+const account = ref('liumapp')
+const password = ref('123456')
+const userStore = useUserStore()
+const {
+  loading,
+  error,
+  data,
+  run: handleLogin,
+} = useRequest(() => loginRequest(account.value, password.value))
+const onLogin = () => {
+  handleLogin()
+    .then((res) => {
+      console.log('登录成功:', JSON.parse(JSON.stringify(res)))
+      userStore.setUserInfo(JSON.parse(JSON.stringify(res)))
+      uni.switchTab({ url: '/pages/machine/index' })
+    })
+    .catch((err) => {
+      console.error('登录失败:', err)
+      // 这里可以弹出错误提示
+      uni.showToast({ title: '登录失败，请检查账号密码', icon: 'none' })
+    })
 }
 </script>
 
