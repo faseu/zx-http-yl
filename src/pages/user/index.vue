@@ -23,43 +23,61 @@
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[70%] bg-[#292D34] p-3">無料警告支數</view>
-        <view class="w-[30%] bg-[#007135] p-3">0020</view>
-      </view>
-      <wd-gap height="10" />
-      <view
-        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
-      >
-        <view class="w-[70%] bg-[#292D34] p-3">無料停車支數</view>
-        <view class="w-[30%] bg-[#007135] p-3">0000</view>
-      </view>
-      <wd-gap height="10" />
-      <view
-        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
-      >
-        <view class="w-[70%] bg-[#292D34] p-3">異常停車</view>
-        <view class="w-[30%] bg-[#45C75D] p-3 flex items-center justify-center">
-          <view>ON</view>
-          <view class="w-7.75 h-7.75 bg-white rounded-[50%] ml-2"></view>
+        <view class="w-[68%] h-full box-border bg-[#292D34] p-3">無料警告支數</view>
+        <view class="w-[32%] h-full box-border bg-[#007135] p-3">
+          <wd-input
+            no-border
+            type="number"
+            v-model="value"
+            size="small"
+            placeholder="请输入"
+            @change="handleChange"
+          />
         </view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[70%] bg-[#292D34] p-3">壓力倒拉功能</view>
-        <view class="w-[30%] bg-[#45C75D] p-3 flex items-center justify-center">
-          <view>ON</view>
-          <view class="w-7.75 h-7.75 bg-white rounded-[50%] ml-2"></view>
+        <view class="w-[68%] h-full box-border bg-[#292D34] p-3">無料停車支數</view>
+        <view class="w-[32%] h-full box-border bg-[#007135] p-3">
+          <wd-input
+            no-border
+            type="number"
+            v-model="value"
+            size="small"
+            placeholder="请输入"
+            @change="handleChange"
+          />
         </view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[70%] bg-[#292D34] p-3">距離倒拉功能</view>
-        <view class="w-[30%] bg-[#A4A4A4] p-3 flex items-center justify-center">
-          <view class="w-7.75 h-7.75 bg-white rounded-[50%]"></view>
+        <view class="w-[68%] h-full box-border bg-[#292D34] p-3">異常停車</view>
+        <view class="w-[32%] h-full box-border bg-[#45C75D] p-3 flex items-center justify-center">
+          <view>ON</view>
+          <view class="w-7.5 h-7.5 bg-white rounded-[50%] ml-2"></view>
+        </view>
+      </view>
+      <wd-gap height="10" />
+      <view
+        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
+      >
+        <view class="w-[68%] h-full box-border bg-[#292D34] p-3">壓力倒拉功能</view>
+        <view class="w-[32%] h-full box-border bg-[#45C75D] p-3 flex items-center justify-center">
+          <view>ON</view>
+          <view class="w-7.5 h-7.5 bg-white rounded-[50%] ml-2"></view>
+        </view>
+      </view>
+      <wd-gap height="10" />
+      <view
+        class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
+      >
+        <view class="w-[68%] h-full box-border bg-[#292D34] p-3">距離倒拉功能</view>
+        <view class="w-[32%] h-full box-border bg-[#A4A4A4] p-3 flex items-center justify-center">
+          <view class="w-7.5 h-7.5 bg-white rounded-[50%]"></view>
           <view class="ml-2">OFF</view>
         </view>
       </view>
@@ -124,6 +142,12 @@ const closeDrawer = () => {
   }
   .wd-cell__wrapper {
     padding: 0 !important;
+  }
+  .wd-input {
+    background: #007135 !important;
+  }
+  .wd-input__inner {
+    color: #fff !important;
   }
 }
 </style>
