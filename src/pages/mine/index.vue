@@ -56,11 +56,6 @@ import { httpPost, httpGet } from '@/utils/http'
 const { loading, error, data, run } = useRequest(() =>
   httpPost('/code/note', { phone: '13258585169' }),
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
 
 const handleGoToLogin = () => {
   uni.reLaunch({ url: '/pages/login/index' })

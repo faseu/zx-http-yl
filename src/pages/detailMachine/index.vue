@@ -327,7 +327,7 @@ const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
 }
 const handleGoToUser = () => {
-  uni.navigateTo({ url: '/pages/user/index' })
+  uni.navigateTo({ url: `/pages/user/index?id=${terminalId.value}` })
 }
 const handleGoToAlarm = () => {
   uni.navigateTo({ url: '/pages/alarm/index' })
