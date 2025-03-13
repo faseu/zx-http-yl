@@ -24,46 +24,42 @@
     >
       <view class="flex-1 flex flex-col items-center justify-center">
         <view
+          v-if="data.terminalConfig.isRs === 'on'"
+          class="w-13.75 h-7.5 box-border rounded-1 border-2 border-solid border-[#FFFF00]"
+        />
+        <view
+          v-else
           class="w-13.75 h-7.5 box-border rounded-1 border-2 border-solid border-[#B5B5B5]"
-        ></view>
+        />
         <view>RS</view>
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
           <view
-            v-show="data.terminalConfig.isLink === 'on'"
+            v-if="data.terminalConfig.isLink === 'on'"
             class="w-4 h-4 bg-[#FFFF00] rounded-full"
           />
-          <view
-            v-show="data.terminalConfig.isLink === 'off'"
-            class="w-4 h-4 bg-[#fff] rounded-full"
-          />
+          <view v-else class="w-4 h-4 bg-[#fff] rounded-full" />
         </view>
         <view>LINK</view>
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
           <view
-            v-show="data.terminalConfig.isSensor === 'on'"
+            v-if="data.terminalConfig.isSensor === 'on'"
             class="w-4 h-4 bg-[#FFFF00] rounded-full"
           />
-          <view
-            v-show="data.terminalConfig.isSensor === 'off'"
-            class="w-4 h-4 bg-[#fff] rounded-full"
-          />
+          <view v-else class="w-4 h-4 bg-[#fff] rounded-full" />
         </view>
         <view>SENSOR</view>
       </view>
       <view class="flex-1 flex flex-col items-center justify-center">
         <view class="w-13.75 h-7.5 flex items-center justify-center">
           <view
-            v-show="data.terminalConfig.isCheck === 'on'"
+            v-if="data.terminalConfig.isCheck === 'on'"
             class="w-4 h-4 bg-[#FFFF00] rounded-full"
           />
-          <view
-            v-show="data.terminalConfig.isCheck === 'off'"
-            class="w-4 h-4 bg-[#fff] rounded-full"
-          />
+          <view v-else class="w-4 h-4 bg-[#fff] rounded-full" />
         </view>
         <view>CHECK</view>
       </view>
@@ -72,13 +68,15 @@
       <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item1.png" />
         <view class="mt-1">
-          {{ `檢測 ${data.terminalConfig.isJiance === 'on' ? 'ON' : 'OFF'}` }}
+          <text>檢測</text>
+          <text>{{ ` ${data.terminalConfig.isJiance === 'on' ? 'ON' : 'OFF'}` }}</text>
         </view>
       </view>
       <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item2.png" />
         <view class="mt-1">
-          {{ `計數 ${data.terminalConfig.isJishu === 'on' ? 'ON' : 'OFF'}` }}
+          <text>計數</text>
+          <text>{{ ` ${data.terminalConfig.isJishu === 'on' ? 'ON' : 'OFF'}` }}</text>
         </view>
       </view>
       <view
@@ -117,22 +115,37 @@
         <view class="flex">
           <view class="mr-3.5">上限</view>
           <view>
-            <wd-input-number min="0" v-model="value1" @change="handleChange" />
+            <wd-input-number
+              min="0"
+              v-model="config.upperLimit"
+              @change="(e) => handleChange('upperLimit', e.value)"
+            />
           </view>
         </view>
         <view class="flex">
           <view class="mr-3.5">下限</view>
           <view>
-            <wd-input-number min="0" v-model="value2" @change="handleChange" />
+            <wd-input-number
+              min="0"
+              v-model="config.lowerLimit"
+              @change="(e) => handleChange('lowerLimit', e.value)"
+            />
           </view>
         </view>
       </view>
       <view class="h-full flex flex-col items-center justify-center">
         <view>使用</view>
-        <view class="w-17.5 mt-3" @click="switch1 = !switch1">
-          <wd-img v-show="switch1" class="w-full" mode="widthFix" src="/static/images/xwz/on.png" />
+        <view class="w-17.5 mt-3">
           <wd-img
-            v-show="!switch1"
+            @click="() => handleChange('isUpLower', 'off')"
+            v-show="config.isUpLower === 'on'"
+            class="w-full"
+            mode="widthFix"
+            src="/static/images/xwz/on.png"
+          />
+          <wd-img
+            @click="() => handleChange('isUpLower', 'on')"
+            v-show="config.isUpLower === 'off'"
             class="w-full"
             mode="widthFix"
             src="/static/images/xwz/off.png"
@@ -289,7 +302,6 @@ const terminalId = ref(0)
 const { data, run } = useRequest(() =>
   httpGet(`/prod-api/plcterminal/terminal/api-detail/${terminalId.value}`),
 )
-
 onLoad((option) => {
   terminalId.value = option.id
   run()
@@ -298,10 +310,22 @@ const switch1 = ref(false)
 const value1 = ref(0)
 const value2 = ref(0)
 
+const config = reactive({
+  upperLimit: 0,
+  lowerLimit: 0,
+  isUpLower: 'off',
+  isJiance: 0,
+  isJishu: 0,
+})
+
+const handleChange = (key, e) => {
+  console.log(e)
+  config[key] = e
+}
+
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
 }
-
 const handleGoToUser = () => {
   uni.navigateTo({ url: '/pages/user/index' })
 }
