@@ -13,6 +13,7 @@ interface NavigateToOptions {
        "/pages/login/index" |
        "/pages/mine/index" |
        "/pages/production/index" |
+       "/pages/searchMachine/index" |
        "/pages/strength/index" |
        "/pages/user/index";
 }

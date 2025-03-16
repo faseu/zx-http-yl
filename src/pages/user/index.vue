@@ -12,10 +12,10 @@
     fixed
     left-arrow
     placeholder
+    left-text="返回"
     title="使用者參數"
     safeAreaInsetTop
     @click-left="handleClickLeft"
-    @click-right="handleClickRight"
     custom-style="background-color: #007135 !important;"
   />
   <view class="page-content">
@@ -175,9 +175,6 @@ const handleSave = () => {
 }
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
-}
-const handleClickRight = () => {
-  uni.navigateTo({ url: '' })
 }
 </script>
 

@@ -27,7 +27,7 @@
         :height="100"
         src="/static/images/xwz/cleaner.png"
       />
-      <view class="mt-[10px]">你的名字</view>
+      <view class="mt-[10px]">{{ username }}</view>
       <wd-img
         custom-class="w-[100%] bottom-0 left-0"
         custom-style="position: absolute"
@@ -52,13 +52,13 @@
 </template>
 
 <script setup lang="js">
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
-)
+import { useUserStore } from '@/store'
+const userStore = useUserStore()
+const username = userStore.userInfo.username
 
 const handleGoToLogin = () => {
   uni.reLaunch({ url: '/pages/login/index' })
+  userStore.clearUserInfo()
 }
 </script>
 

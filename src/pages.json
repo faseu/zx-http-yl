@@ -106,7 +106,15 @@
       "type": "page",
       "style": {
         "navigationStyle": "custom",
-        "navigationBarTitleText": "力量頁面"
+        "navigationBarTitleText": "生產頁面"
+      }
+    },
+    {
+      "path": "pages/searchMachine/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": ""
       }
     },
     {

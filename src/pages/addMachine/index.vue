@@ -24,55 +24,99 @@
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備ID</view>
-        <view class="w-[60%] bg-[#007135] p-3">添加設備ID</view>
+        <view class="w-[40%] h-full box-border bg-[#292D34] p-3">設備ID</view>
+        <view class="w-[60%] h-full box-border bg-[#007135] p-3">
+          <wd-input
+            no-border
+            type="number"
+            v-model="addParams.terminalNo"
+            size="small"
+            placeholder="添加設備ID"
+          />
+        </view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備名稱</view>
-        <view class="w-[60%] bg-[#007135] p-3">輸入設備名稱</view>
+        <view class="w-[40%] h-full box-border bg-[#292D34] p-3">設備名稱</view>
+        <view class="w-[60%] h-full box-border bg-[#007135] p-3">
+          <wd-input
+            no-border
+            type="text"
+            v-model="addParams.terminalName"
+            size="small"
+            placeholder="輸入設備名稱"
+          />
+        </view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] bg-[#292D34] p-3">設備位置</view>
-        <view class="w-[60%] bg-[#007135] p-3">輸入設備位置</view>
+        <view class="w-[40%] h-full box-border bg-[#292D34] p-3">設備位置</view>
+        <view class="w-[60%] h-full box-border bg-[#007135] p-3">
+          <wd-input
+            no-border
+            type="text"
+            v-model="addParams.terminalLocation"
+            size="small"
+            placeholder="輸入設備位置"
+          />
+        </view>
       </view>
       <wd-gap height="10" />
     </view>
     <view
       class="bg-[#9FB7E1] border-solid border-t-white border-0 border-t-0.5 w-[100%] p-x-4 p-y-3 box-border pos-fixed bottom-0"
     >
-      <wd-button size="large" style="background: #007135" block>確認添加</wd-button>
+      <wd-button size="large" style="background: #007135" block @click="handleSave">
+        確認添加
+      </wd-button>
       <wd-gap safe-area-bottom height="0" />
     </view>
   </view>
 </template>
 
 <script setup lang="js">
-import UCard from '@/components/UCard/UCard.vue'
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
+import { useUserStore } from '@/store'
+import { useToast } from 'wot-design-uni'
+import { httpGet } from '@/utils/http'
+const toast = useToast()
+const userStore = useUserStore()
+const userId = userStore.userInfo.id
+const addParams = reactive({
+  terminalNo: '',
+  terminalName: '',
+  terminalLocation: '',
+})
+
+const { run: runPostData } = useRequest(() =>
+  httpGet(
+    `/prod-api/plcterminal/terminal/api-add/${userId}/${addParams.terminalNo}/${addParams.terminalName}/${addParams.terminalLocation}`,
+  ),
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
+
+const handleSave = () => {
+  if (!addParams.terminalNo || !addParams.terminalName || !addParams.terminalLocation) {
+    toast.show('請正確填寫！')
+    return
+  }
+  runPostData().then(() => {
+    toast.show('保存成功！')
+    Object.assign(addParams, {
+      terminalNo: '',
+      terminalName: '',
+      terminalLocation: '',
+    })
+  })
+}
 
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
 }
 const handleClickRight = () => {
   uni.navigateTo({ url: '' })
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();
 }
 </script>
 
@@ -102,6 +146,12 @@ const closeDrawer = () => {
   }
   .wd-cell__wrapper {
     padding: 0 !important;
+  }
+  .wd-input {
+    background: #007135 !important;
+  }
+  .wd-input__inner {
+    color: #fff !important;
   }
 }
 </style>

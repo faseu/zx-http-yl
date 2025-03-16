@@ -12,95 +12,63 @@
     fixed
     left-arrow
     placeholder
+    left-text="返回"
     title="添加"
     safeAreaInsetTop
     @click-left="handleClickLeft"
-    @click-right="handleClickRight"
     custom-style="background-color: #007135 !important;"
   />
   <view class="page-content">
     <wd-table :data="dataList" :stripe="false">
-      <wd-table-col prop="major1" width="12.65%" label="模數"></wd-table-col>
-      <wd-table-col prop="major2" width="16.40%" label="異常碼"></wd-table-col>
-      <wd-table-col prop="major3" width="25.31%" label="異常內容"></wd-table-col>
-      <wd-table-col prop="major4" width="16.40%" label="異常值"></wd-table-col>
-      <wd-table-col prop="major5" width="29.24%" label="異常時間"></wd-table-col>
+      <wd-table-col prop="moshu" width="12.65%" label="模數"></wd-table-col>
+      <wd-table-col prop="yichangma" width="16.40%" label="異常碼"></wd-table-col>
+      <wd-table-col prop="yichangNeirong" width="25.31%" label="異常內容"></wd-table-col>
+      <wd-table-col prop="yichangZhi" width="16.40%" label="異常值"></wd-table-col>
+      <wd-table-col prop="createTime" width="29.24%" label="異常時間"></wd-table-col>
     </wd-table>
   </view>
 </template>
 
 <script setup lang="js">
-import UCard from '@/components/UCard/UCard.vue'
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
+import { useToast } from 'wot-design-uni'
+import { onLoad } from '@dcloudio/uni-app'
+import { httpGet } from '@/utils/http'
+const toast = useToast()
+const dataList = reactive([])
+
+const terminalId = ref(0)
+const { loading, run: runGetData } = useRequest(() =>
+  httpGet(`/prod-api/plcterminal/alarm/api-query/${terminalId.value}`),
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
-const dataList = reactive([
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-  {
-    major1: '00',
-    major2: '67',
-    major3: '循環水異常',
-    major4: '0',
-    major5: '1/9 16:23:45',
-  },
-])
+
+onLoad((option) => {
+  terminalId.value = option.id
+  runGetData().then((res) => {
+    Object.assign(
+      dataList,
+      res.map((item) => {
+        return {
+          ...item,
+          createTime: convertTimeFormat(item.createTime),
+        }
+      }),
+    )
+  })
+})
+
+function convertTimeFormat(timestamp) {
+  const date = new Date(timestamp)
+  const month = date.getMonth() + 1 // getMonth() 返回 0-11，需要 +1
+  const day = date.getDate()
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  return `${month}/${day} ${hours}:${minutes}:${seconds}`
+}
 
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
-}
-const handleClickRight = () => {
-  uni.navigateTo({ url: '' })
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();Strength
 }
 </script>
 
@@ -113,6 +81,12 @@ const closeDrawer = () => {
   background: #9fb7e1;
   padding: 12px;
   box-sizing: border-box;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 :deep() {
   .wd-navbar__text {

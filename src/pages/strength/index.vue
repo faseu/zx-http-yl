@@ -12,10 +12,10 @@
     fixed
     left-arrow
     placeholder
+    left-text="返回"
     title="力量頁面"
     safeAreaInsetTop
     @click-left="handleClickLeft"
-    @click-right="handleClickRight"
     custom-style="background-color: #007135 !important;"
   />
   <view class="page-content p-3 box-border">
@@ -24,35 +24,35 @@
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
         <view class="w-[70%] bg-[#292D34] p-3">壓力1空車值</view>
-        <view class="w-[30%] bg-[#007135] p-3">044</view>
+        <view class="w-[30%] bg-[#007135] p-3">{{ config.first }}</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
         <view class="w-[70%] bg-[#292D34] p-3">壓力2空車值</view>
-        <view class="w-[30%] bg-[#007135] p-3">067</view>
+        <view class="w-[30%] bg-[#007135] p-3">{{ config.second }}</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
         <view class="w-[70%] bg-[#292D34] p-3">壓力3空車值</view>
-        <view class="w-[30%] bg-[#007135] p-3">010</view>
+        <view class="w-[30%] bg-[#007135] p-3">{{ config.third }}</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
         <view class="w-[70%] bg-[#292D34] p-3">壓力4空車值</view>
-        <view class="w-[30%] bg-[#007135] p-3">010</view>
+        <view class="w-[30%] bg-[#007135] p-3">{{ config.fourth }}</view>
       </view>
       <wd-gap height="10" />
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
         <view class="w-[70%] bg-[#292D34] p-3">距離空車值</view>
-        <view class="w-[30%] bg-[#007135] p-3">020</view>
+        <view class="w-[30%] bg-[#007135] p-3">{{ config.juli }}</view>
       </view>
       <wd-gap height="10" />
     </view>
@@ -113,30 +113,41 @@
         <view class="bg-[#007135] w-6.25 h-6.25 rounded-0.5"></view>
       </view>
     </view>
+    <wd-overlay type="primary" :show="loading">
+      <view class="wrapper">
+        <wd-loading />
+      </view>
+    </wd-overlay>
   </view>
 </template>
 
 <script setup lang="js">
-import UCard from '@/components/UCard/UCard.vue'
-import { httpPost, httpGet } from '@/utils/http'
-const { loading, error, data, run } = useRequest(() =>
-  httpPost('/code/note', { phone: '13258585169' }),
+import { useToast } from 'wot-design-uni'
+import { onLoad } from '@dcloudio/uni-app'
+import { httpGet } from '@/utils/http'
+const toast = useToast()
+const terminalId = ref(0)
+const { loading, run: runGetData } = useRequest(() =>
+  httpGet(`/prod-api/plcterminal/produce/api-query/${terminalId.value}`),
 )
-const tab = ref(0)
-const current = ref(0)
-const activeColor = ref('#DE5230')
-const styleType = ref('text')
-const showLeft = ref(false)
+
+const config = reactive({
+  first: 0,
+  second: 0,
+  third: 0,
+  fourth: 0,
+  juli: 0,
+})
+
+onLoad((option) => {
+  terminalId.value = option.id
+  runGetData().then((res) => {
+    Object.assign(config, res)
+  })
+})
 
 const handleClickLeft = () => {
   uni.navigateBack({ delta: 1 })
-}
-const handleClickRight = () => {
-  uni.navigateTo({ url: '' })
-}
-
-const closeDrawer = () => {
-  // showRight.value.close();
 }
 </script>
 
@@ -147,6 +158,12 @@ const closeDrawer = () => {
   min-height: 100vh;
   height: 100%;
   background: #9fb7e1;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 :deep() {
   .wd-navbar__text {

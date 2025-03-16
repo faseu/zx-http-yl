@@ -56,7 +56,7 @@ const onLogin = () => {
   handleLogin()
     .then((res) => {
       console.log('登录成功:', JSON.parse(JSON.stringify(res)))
-      userStore.setUserInfo(JSON.parse(JSON.stringify(res)))
+      userStore.setUserInfo({ ...JSON.parse(JSON.stringify(res)), token: res.id })
       uni.switchTab({ url: '/pages/machine/index' })
     })
     .catch((err) => {

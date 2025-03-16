@@ -19,7 +19,7 @@
       @click-right="handleClickRight"
       custom-style="background-color: #007135 !important;"
     />
-    <wd-search mt-0.25 hide-cancel placeholder-left />
+    <wd-search mt-0.25 hide-cancel placeholder-left @focus="handleGotoSearch" />
     <view class="">
       <view class="p-[12px] ml-[16px] tag-before">設備列表 (9)</view>
       <wd-card v-for="item in data" :key="item" @click="() => handleGotoDetail(item.id)">
@@ -29,7 +29,7 @@
             <view class="title-tip">
               <wd-tag
                 type="success"
-                v-show="item.terminalStatus === 'online'"
+                v-if="item.terminalStatus === 'online'"
                 color="#007135"
                 bg-color="#007135"
                 plain
@@ -38,7 +38,7 @@
               </wd-tag>
               <wd-tag
                 type="success"
-                v-show="item.terminalStatus === 'offline'"
+                v-if="item.terminalStatus === 'offline'"
                 color="#6F6F6F"
                 bg-color="#6F6F6F"
                 plain
@@ -81,18 +81,23 @@
 <script setup lang="js">
 import { useUserStore } from '@/store'
 import { httpGet } from '@/utils/http'
+import { onShow } from '@dcloudio/uni-app'
 const userStore = useUserStore()
 const userId = userStore.userInfo.id
-const { data, run } = useRequest(
-  () => httpGet(`/prod-api/plcterminal/terminal/api-list/${userId}`),
-  { immediate: true },
-)
+const { data, run } = useRequest(() => httpGet(`/prod-api/plcterminal/terminal/api-list/${userId}`))
+
+onShow(() => {
+  run()
+})
 
 const handleClickRight = () => {
   uni.navigateTo({ url: '/pages/addMachine/index' })
 }
 const handleGotoDetail = (id) => {
   uni.navigateTo({ url: `/pages/detailMachine/index?id=${id}` })
+}
+const handleGotoSearch = (id) => {
+  uni.navigateTo({ url: `/pages/searchMachine/index` })
 }
 </script>
 

@@ -65,18 +65,24 @@
       </view>
     </view>
     <view class="flex flex-wrap justify-between mt-3 box-border text-white font-size-3.25">
-      <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
+      <view
+        class="flex flex-col items-center justify-center w-22 h-22 mt-3 mr-10"
+        @click="() => handleChange('isJiance', config.isJiance === 'on' ? 'off' : 'on')"
+      >
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item1.png" />
         <view class="mt-1">
           <text>檢測</text>
-          <text>{{ ` ${data.terminalConfig.isJiance === 'on' ? 'ON' : 'OFF'}` }}</text>
+          <text>{{ ` ${config.isJiance === 'on' ? 'ON' : 'OFF'}` }}</text>
         </view>
       </view>
-      <view class="flex flex-col items-center justify-center w-22 h-22 mt-3">
+      <view
+        class="flex flex-col items-center justify-center w-22 h-22 mt-3 mr-10"
+        @click="() => handleChange('isJishu', config.isJishu === 'on' ? 'off' : 'on')"
+      >
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item2.png" />
         <view class="mt-1">
           <text>計數</text>
-          <text>{{ ` ${data.terminalConfig.isJishu === 'on' ? 'ON' : 'OFF'}` }}</text>
+          <text>{{ ` ${config.isJishu === 'on' ? 'ON' : 'OFF'}` }}</text>
         </view>
       </view>
       <view
@@ -87,14 +93,14 @@
         <view class="mt-1">使用者參數</view>
       </view>
       <view
-        class="flex flex-col items-center justify-center w-22 h-22 mt-3"
+        class="flex flex-col items-center justify-center w-22 h-22 mt-3 mr-10"
         @click="handleGoToStrength"
       >
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item4.png" />
         <view class="mt-1">力量頁面</view>
       </view>
       <view
-        class="flex flex-col items-center justify-center w-22 h-22 mt-3"
+        class="flex flex-col items-center justify-center w-22 h-22 mt-3 mr-10"
         @click="handleGoToProduction"
       >
         <wd-img class="w-full" mode="widthFix" src="/static/images/xwz/item5.png" />
@@ -138,14 +144,14 @@
         <view class="w-17.5 mt-3">
           <wd-img
             @click="() => handleChange('isUpLower', 'off')"
-            v-show="config.isUpLower === 'on'"
+            v-if="config.isUpLower === 'on'"
             class="w-full"
             mode="widthFix"
             src="/static/images/xwz/on.png"
           />
           <wd-img
             @click="() => handleChange('isUpLower', 'on')"
-            v-show="config.isUpLower === 'off'"
+            v-else
             class="w-full"
             mode="widthFix"
             src="/static/images/xwz/off.png"
@@ -165,28 +171,43 @@
           <view>使用</view>
           <view class="w-17.5 h-7.25" @click="switch1 = !switch1">
             <wd-img
-              v-show="switch1"
+              v-show="roadConfig.isFirstOn === 'on'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/on.png"
+              @click="() => handleChangeRoad('isFirstOn', 'off')"
             />
             <wd-img
-              v-show="!switch1"
+              v-show="roadConfig.isFirstOn === 'off'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/off.png"
+              @click="() => handleChangeRoad('isFirstOn', 'on')"
             />
           </view>
         </view>
         <view class="bg-[#206B54] w-full h-6.25 mt-5.25 flex items-center justify-center">
           超出界限%
         </view>
-        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">03</view>
+        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">
+          <wd-input
+            no-border
+            type="number"
+            v-model="roadConfig.firstOverPercent"
+            size="small"
+            placeholder="请输入"
+            @blur="(e) => handleChangeRoad('firstOverPercent', e.value)"
+          />
+        </view>
         <view class="bg-[#206B54] w-full h-6.25 flex items-center justify-center mt-1.75">
           等級
         </view>
         <view class="mt-2.75">
-          <wd-input-number min="0" v-model="value2" @change="handleChange" />
+          <wd-input-number
+            min="0"
+            v-model="roadConfig.firstLevel"
+            @change="(e) => handleChangeRoad('firstLevel', e.value)"
+          />
         </view>
       </view>
       <view class="bg-[#9FB7E1] rounded-1.25 w-42 h-50 p-3 box-border text-white">
@@ -199,28 +220,43 @@
           <view>使用</view>
           <view class="w-17.5 h-7.25" @click="switch1 = !switch1">
             <wd-img
-              v-show="switch1"
+              v-show="roadConfig.isSecondOn === 'on'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/on.png"
+              @click="() => handleChangeRoad('isSecondOn', 'off')"
             />
             <wd-img
-              v-show="!switch1"
+              v-show="roadConfig.isSecondOn === 'off'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/off.png"
+              @click="() => handleChangeRoad('isSecondOn', 'on')"
             />
           </view>
         </view>
         <view class="bg-[#206B54] w-full h-6.25 mt-5.25 flex items-center justify-center">
           超出界限%
         </view>
-        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">03</view>
+        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">
+          <wd-input
+            no-border
+            type="number"
+            v-model="roadConfig.secondOverPercent"
+            size="small"
+            placeholder="请输入"
+            @blur="(e) => handleChangeRoad('secondOverPercent', e.value)"
+          />
+        </view>
         <view class="bg-[#206B54] w-full h-6.25 flex items-center justify-center mt-1.75">
           等級
         </view>
         <view class="mt-2.75">
-          <wd-input-number min="0" v-model="value2" @change="handleChange" />
+          <wd-input-number
+            min="0"
+            v-model="roadConfig.secondLevel"
+            @change="(e) => handleChangeRoad('secondLevel', e.value)"
+          />
         </view>
       </view>
       <view class="bg-[#9FB7E1] rounded-1.25 w-42 h-50 mt-3 p-3 box-border text-white">
@@ -233,28 +269,43 @@
           <view>使用</view>
           <view class="w-17.5 h-7.25" @click="switch1 = !switch1">
             <wd-img
-              v-show="switch1"
+              v-show="roadConfig.isThirdOn === 'on'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/on.png"
+              @click="() => handleChangeRoad('isThirdOn', 'off')"
             />
             <wd-img
-              v-show="!switch1"
+              v-show="roadConfig.isThirdOn === 'off'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/off.png"
+              @click="() => handleChangeRoad('isThirdOn', 'on')"
             />
           </view>
         </view>
         <view class="bg-[#206B54] w-full h-6.25 mt-5.25 flex items-center justify-center">
           超出界限%
         </view>
-        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">03</view>
+        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">
+          <wd-input
+            no-border
+            type="number"
+            v-model="roadConfig.thirdOverPercent"
+            size="small"
+            placeholder="请输入"
+            @blur="(e) => handleChangeRoad('thirdOverPercent', e.value)"
+          />
+        </view>
         <view class="bg-[#206B54] w-full h-6.25 flex items-center justify-center mt-1.75">
           等級
         </view>
         <view class="mt-2.75">
-          <wd-input-number min="0" v-model="value2" @change="handleChange" />
+          <wd-input-number
+            min="0"
+            v-model="roadConfig.thirdLevel"
+            @change="(e) => handleChangeRoad('thirdLevel', e.value)"
+          />
         </view>
       </view>
       <view class="bg-[#9FB7E1] rounded-1.25 w-42 h-50 mt-3 p-3 box-border text-white">
@@ -267,44 +318,100 @@
           <view>使用</view>
           <view class="w-17.5 h-7.25" @click="switch1 = !switch1">
             <wd-img
-              v-show="switch1"
+              v-show="roadConfig.isFourthOn === 'on'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/on.png"
+              @click="() => handleChangeRoad('isFourthOn', 'off')"
             />
             <wd-img
-              v-show="!switch1"
+              v-show="roadConfig.isFourthOn === 'off'"
               class="w-full"
               mode="widthFix"
               src="/static/images/xwz/off.png"
+              @click="() => handleChangeRoad('isFourthOn', 'on')"
             />
           </view>
         </view>
         <view class="bg-[#206B54] w-full h-6.25 mt-5.25 flex items-center justify-center">
           超出界限%
         </view>
-        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">03</view>
+        <view class="bg-[#17A35C] w-full h-6.25 flex items-center justify-center">
+          <wd-input
+            no-border
+            type="number"
+            v-model="roadConfig.fourthOverPercent"
+            size="small"
+            placeholder="请输入"
+            @blur="(e) => handleChangeRoad('fourthOverPercent', e.value)"
+          />
+        </view>
         <view class="bg-[#206B54] w-full h-6.25 flex items-center justify-center mt-1.75">
           等級
         </view>
         <view class="mt-2.75">
-          <wd-input-number min="0" v-model="value2" @change="handleChange" />
+          <wd-input-number
+            min="0"
+            v-model="roadConfig.fourthLevel"
+            @change="(e) => handleChangeRoad('fourthLevel', e.value)"
+          />
         </view>
       </view>
     </view>
   </view>
+  <wd-overlay type="primary" :show="loading1 || loading2 || loading3">
+    <view class="wrapper">
+      <wd-loading />
+    </view>
+  </wd-overlay>
 </template>
 
 <script setup lang="js">
 import { onLoad } from '@dcloudio/uni-app'
 import { httpGet } from '@/utils/http'
+import { useToast } from 'wot-design-uni'
+const toast = useToast()
 const terminalId = ref(0)
-const { data, run } = useRequest(() =>
-  httpGet(`/prod-api/plcterminal/terminal/api-detail/${terminalId.value}`),
+const {
+  loading: loading1,
+  data,
+  run,
+} = useRequest(() => httpGet(`/prod-api/plcterminal/terminal/api-detail/${terminalId.value}`))
+const { loading: loading2, run: runPostConfig } = useRequest(() =>
+  httpGet(
+    `/prod-api/plcterminal/terminalconfig/api-update/${terminalId.value}/on/${config.isJiance}/${config.isJishu}/${config.isUpLower}/${config.upperLimit}/${config.lowerLimit}`,
+  ),
+)
+const { loading: loading3, run: run4RoadConfig } = useRequest(() =>
+  httpGet(
+    `/prod-api/plcterminal/fourway/api-update/${terminalId.value}/${roadConfig.isFirstOn}/${roadConfig.firstOverPercent}/${roadConfig.firstLevel}/${roadConfig.isSecondOn}/${roadConfig.secondOverPercent}/${roadConfig.secondLevel}/${roadConfig.isThirdOn}/${roadConfig.thirdOverPercent}/${roadConfig.thirdLevel}/${roadConfig.isFourthOn}/${roadConfig.fourthOverPercent}/${roadConfig.fourthLevel}`,
+  ),
 )
 onLoad((option) => {
   terminalId.value = option.id
-  run()
+  run().then((res) => {
+    Object.assign(config, {
+      upperLimit: res.terminalConfig.upperLimit,
+      lowerLimit: res.terminalConfig.lowerLimit,
+      isUpLower: res.terminalConfig.isUpLower,
+      isJiance: res.terminalConfig.isJiance,
+      isJishu: res.terminalConfig.isJishu,
+    })
+    Object.assign(roadConfig, {
+      isFirstOn: res.terminalFourWayConfig.isFirstOn,
+      firstOverPercent: res.terminalFourWayConfig.firstOverPercent,
+      firstLevel: res.terminalFourWayConfig.firstLevel,
+      isSecondOn: res.terminalFourWayConfig.isSecondOn,
+      secondOverPercent: res.terminalFourWayConfig.secondOverPercent,
+      secondLevel: res.terminalFourWayConfig.secondLevel,
+      isThirdOn: res.terminalFourWayConfig.isThirdOn,
+      thirdOverPercent: res.terminalFourWayConfig.thirdOverPercent,
+      thirdLevel: res.terminalFourWayConfig.thirdLevel,
+      isFourthOn: res.terminalFourWayConfig.isFourthOn,
+      fourthOverPercent: res.terminalFourWayConfig.fourthOverPercent,
+      fourthLevel: res.terminalFourWayConfig.fourthLevel,
+    })
+  })
 })
 const switch1 = ref(false)
 const value1 = ref(0)
@@ -314,29 +421,47 @@ const config = reactive({
   upperLimit: 0,
   lowerLimit: 0,
   isUpLower: 'off',
-  isJiance: 0,
-  isJishu: 0,
+  isJiance: 'off',
+  isJishu: 'off',
+})
+
+const roadConfig = reactive({
+  isFirstOn: 'on',
+  firstOverPercent: 0,
+  firstLevel: 0,
+  isSecondOn: 'on',
+  secondOverPercent: 0,
+  secondLevel: 0,
+  isThirdOn: 'on',
+  thirdOverPercent: 0,
+  thirdLevel: 0,
+  isFourthOn: 'on',
+  fourthOverPercent: 0,
+  fourthLevel: 0,
 })
 
 const handleChange = (key, e) => {
-  console.log(e)
   config[key] = e
+  runPostConfig().then((res) => toast.show('已更新！'))
 }
-
+const handleChangeRoad = (key, e) => {
+  roadConfig[key] = e
+  run4RoadConfig().then((res) => toast.show('已更新！'))
+}
 const handleClickLeft = () => {
-  uni.navigateBack({ delta: 1 })
+  uni.switchTab({ url: '/pages/machine/index' })
 }
 const handleGoToUser = () => {
   uni.navigateTo({ url: `/pages/user/index?id=${terminalId.value}` })
 }
 const handleGoToAlarm = () => {
-  uni.navigateTo({ url: '/pages/alarm/index' })
+  uni.navigateTo({ url: `/pages/alarm/index?id=${terminalId.value}` })
 }
 const handleGoToStrength = () => {
-  uni.navigateTo({ url: '/pages/strength/index' })
+  uni.navigateTo({ url: `/pages/strength/index?id=${terminalId.value}` })
 }
 const handleGoToProduction = () => {
-  uni.navigateTo({ url: '/pages/production/index' })
+  uni.navigateTo({ url: `/pages/production/index?id=${terminalId.value}` })
 }
 </script>
 
@@ -347,6 +472,12 @@ const handleGoToProduction = () => {
   min-height: 100vh;
   height: 100%;
   background: #007135;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 :deep() {
   .wd-navbar__text {
@@ -367,6 +498,10 @@ const handleGoToProduction = () => {
   .wd-cell__wrapper {
     padding: 0 !important;
   }
+  .wd-input-number {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
 
   .wd-input-number__action {
     width: 32px !important;
@@ -377,7 +512,7 @@ const handleGoToProduction = () => {
   }
 
   .wd-input-number__inner {
-    margin: 0 12px;
+    margin: 0 10px;
     width: 60px;
     height: 32px;
     background: #007135;
@@ -394,6 +529,14 @@ const handleGoToProduction = () => {
     line-height: 32px;
     font-size: 24px;
     color: #fff !important;
+  }
+  .wd-input {
+    background: #17a35c !important;
+  }
+  .uni-input-input {
+    color: #fff !important;
+    font-size: 16px !important;
+    text-align: center !important;
   }
 }
 </style>
