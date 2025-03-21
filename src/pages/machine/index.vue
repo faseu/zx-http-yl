@@ -62,6 +62,7 @@
           <view class="flex-c-b">
             <view
               class="w-18.75 h-5.75 flex items-center justify-center border-1 box-border text-red border-red border-solid rounded-1.25"
+              v-if="false"
             >
               解除綁定
             </view>
