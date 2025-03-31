@@ -21,7 +21,7 @@
     />
     <wd-search mt-0.25 hide-cancel placeholder-left @focus="handleGotoSearch" />
     <view class="">
-      <view class="p-[12px] ml-[16px] tag-before">設備列表 (9)</view>
+      <view class="p-[12px] ml-[16px] tag-before">設備列表 ({{ data.length || 0 }})</view>
       <wd-card v-for="item in data" :key="item" @click="() => handleGotoDetail(item.id)">
         <template #title>
           <view class="flex-c-b">
@@ -62,7 +62,7 @@
           <view class="flex-c-b">
             <view
               class="w-18.75 h-5.75 flex items-center justify-center border-1 box-border text-red border-red border-solid rounded-1.25"
-              v-if="false"
+              @click.stop="() => handleDeleteTermina(item.terminalNo)"
             >
               解除綁定
             </view>
@@ -80,17 +80,36 @@
 </template>
 
 <script setup lang="js">
+import { useMessage } from 'wot-design-uni'
+
 import { useUserStore } from '@/store'
 import { httpGet } from '@/utils/http'
 import { onShow } from '@dcloudio/uni-app'
+const message = useMessage()
 const userStore = useUserStore()
 const userId = userStore.userInfo.id
+const iterminalNo = ref('')
 const { data, run } = useRequest(() => httpGet(`/prod-api/plcterminal/terminal/api-list/${userId}`))
+const { run: runDelete } = useRequest(() =>
+  httpGet(`/prod-api/plcterminal/terminal/api-delete/${userId}/${iterminalNo.value}`),
+)
 
 onShow(() => {
   run()
 })
 
+const handleDeleteTermina = (terminalNo) => {
+  message
+    .confirm({
+      msg: '確定解除綁定？',
+      title: '删除',
+    })
+    .then(() => {
+      iterminalNo.value = terminalNo
+      runDelete().then(run())
+    })
+    .catch(() => {})
+}
 const handleClickRight = () => {
   uni.navigateTo({ url: '/pages/addMachine/index' })
 }
@@ -143,6 +162,9 @@ const handleGotoSearch = (id) => {
     //&::after {
     //  content: none !important;
     //}
+  }
+  .is-primary {
+    background: #007135 !important;
   }
 }
 </style>

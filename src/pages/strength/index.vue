@@ -128,7 +128,7 @@ import { httpGet } from '@/utils/http'
 const toast = useToast()
 const terminalId = ref(0)
 const { loading, run: runGetData } = useRequest(() =>
-  httpGet(`/prod-api/plcterminal/produce/api-query/${terminalId.value}`),
+  httpGet(`/prod-api/plcterminal/power/api-query/${terminalId.value}`),
 )
 
 const config = reactive({

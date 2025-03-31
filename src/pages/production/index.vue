@@ -31,7 +31,7 @@
         <view class="text-[#FFA800]">{{ config.jitaiStatus === '1' ? '待單停機' : '異常' }}</view>
       </view>
       <view class="w-[50%] flex">
-        <view class="m-r-3">IP地址</view>
+        <view class="whitespace-nowrap m-r-3">IP地址</view>
         <view class="text-[#fff]">{{ config.ip }}</view>
       </view>
       <view class="w-[50%] flex">
