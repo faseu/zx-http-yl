@@ -109,6 +109,9 @@ const handleSave = () => {
       terminalName: '',
       terminalLocation: '',
     })
+    setTimeout(() => {
+      uni.navigateBack({ delta: 1 })
+    }, 500)
   })
 }
 

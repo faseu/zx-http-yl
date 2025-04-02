@@ -80,12 +80,13 @@
 </template>
 
 <script setup lang="js">
-import { useMessage } from 'wot-design-uni'
+import { useMessage, useToast } from 'wot-design-uni'
 
 import { useUserStore } from '@/store'
 import { httpGet } from '@/utils/http'
 import { onShow } from '@dcloudio/uni-app'
 const message = useMessage()
+const toast = useToast()
 const userStore = useUserStore()
 const userId = userStore.userInfo.id
 const iterminalNo = ref('')
@@ -104,9 +105,11 @@ const handleDeleteTermina = (terminalNo) => {
       msg: '確定解除綁定？',
       title: '删除',
     })
-    .then(() => {
+    .then(async () => {
       iterminalNo.value = terminalNo
-      runDelete().then(run())
+      toast.show('正在解除綁定！')
+      await runDelete()
+      await run()
     })
     .catch(() => {})
 }
@@ -154,14 +157,6 @@ const handleGotoSearch = (id) => {
   }
   .wd-card__content {
     padding: 0 !important;
-    //&::after {
-    //  content: none !important;
-    //}
-  }
-  .wd-card__footer {
-    //&::after {
-    //  content: none !important;
-    //}
   }
   .is-primary {
     background: #007135 !important;
