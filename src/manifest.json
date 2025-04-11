@@ -1,6 +1,6 @@
 {
-  "name": "xwz",
-  "appid": "__UNI__40F3251",
+  "name": "yl",
+  "appid": "__UNI__5F2330A",
   "description": "",
   "versionName": "1.0.0",
   "versionCode": "100",
@@ -105,7 +105,7 @@
   "vueVersion": "3",
   "h5": {
     "router": {
-      "base": "/xwz/"
+      "base": "/yl/"
     }
   }
 }

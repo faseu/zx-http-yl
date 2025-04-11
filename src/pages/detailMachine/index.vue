@@ -379,7 +379,7 @@ const {
 } = useRequest(() => httpGet(`/prod-api/plcterminal/terminal/api-detail/${terminalId.value}`))
 const { loading: loading2, run: runPostConfig } = useRequest(() =>
   httpGet(
-    `/prod-api/plcterminal/terminalconfig/api-update/${terminalId.value}/on/${config.isJiance}/${config.isJishu}/${config.isUpLower}/${config.upperLimit}/${config.lowerLimit}`,
+    `/prod-api/plcterminal/terminalconfig/api-update/${terminalId.value}/${config.isJiance}/${config.isJishu}/${config.isUpLower}/${config.upperLimit}/${config.lowerLimit}`,
   ),
 )
 const { loading: loading3, run: run4RoadConfig } = useRequest(() =>

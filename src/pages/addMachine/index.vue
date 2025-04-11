@@ -24,14 +24,14 @@
       <view
         class="flex justify-between h-12.5 box-border items-center text-[#fff] rounded-1.25 overflow-hidden"
       >
-        <view class="w-[40%] h-full box-border bg-[#292D34] p-3">設備ID</view>
+        <view class="w-[40%] h-full box-border bg-[#292D34] p-3">設備編號</view>
         <view class="w-[60%] h-full box-border bg-[#007135] p-3">
           <wd-input
             no-border
             type="number"
             v-model="addParams.terminalNo"
             size="small"
-            placeholder="添加設備ID"
+            placeholder="輸入設備編號"
           />
         </view>
       </view>

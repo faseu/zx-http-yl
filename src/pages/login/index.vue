@@ -43,8 +43,8 @@
 <script setup lang="js">
 import { loginRequest } from '@/service/login'
 import { useUserStore } from '@/store'
-const account = ref('liumapp')
-const password = ref('123456')
+const account = ref('')
+const password = ref('')
 const userStore = useUserStore()
 const {
   loading,
